@@ -1,35 +1,68 @@
     #include "Matrix.hpp"
 
+    using namespace zich;
+
     void Matrix::setMatrix(vector<double> v,int r, int c){
         this->setRow(r);
         this->setCol(c);
         this->setV(v);
     }
 
-    Matrix::Matrix(){
-        this->setMatrix();
+    Matrix::Matrix(vector<double> v, int r, int c){
+        this->setMatrix(v,r,c);
+    }
+
+    
+    Matrix Matrix::operator+(int i){
+
+    }
+
+    Matrix Matrix::operator+(const Matrix & m ){
+        if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
+            throw std::invalid_argument( "row or column dont match" );
+        }
+        vector<double> this_v=this->getV();
+        vector<double> m_v=m.getV();
+        int s=this_v.size();
+        vector<double> new_v;
+        new_v.reserve(s);
+        for (int j=0;j<s;j++){
+            new_v[j]=this_v[j]+m_v[j];
+        }
+        Matrix change{new_v,this->getCol(),this->getRow()};
+        
+       
+
+    }
+
+    void Matrix::operator+=(const Matrix & m){
+
     }
 
 
-
-
-
-    void Matrix::operator+(int i){
-        int max=this->getRow()*this->getCol();
+    void Matrix::operator+=(int i){
+        //int max=this->getRow()*this->getCol();
+        int max= this->getV().size();
         for (int j=0;j<max;j++){
             this->_v[j]=this->_v[j]+i;
         } 
     }
 
+    Matrix Matrix::operator-(int i){
 
-    void Matrix::operator+(const Matrix & m ){
-        if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
-            std::throw
-        }
     }
 
-    void Matrix::operator-(int i){
-        int max=this->getRow()*this->getCol();
+    Matrix Matrix::operator-(const Matrix & m){
+
+    }
+
+    void Matrix::operator-=(const Matrix & m ){
+
+    }
+
+
+    void Matrix::operator-=(int i){
+        int max= this->getV().size();
         for (int j=0;j<max;j++){
             this->_v[j]=this->_v[j]-i;
         } 
@@ -40,23 +73,74 @@
 
 
     void Matrix:: operator++(){
-        int max=this->getRow()*this->getCol();
+        int max= this->getV().size();
         for (int i=0;i<max;i++){
             this->_v[i]++;
         }  
     }
 
      void Matrix:: operator--(){
-        int max=this->getRow()*this->getCol();
+        int max= this->getV().size();
         for (int i=0;i<max;i++){
             this->_v[i]--;
         }  
     }
 
 
+    Matrix Matrix::operator++(int i){
+
+    }
+   Matrix Matrix::operator--(int i){
+
+    }
+
+
+
+
+
+
     void Matrix::operator*(double d){
-        int max=this->getRow()*this->getCol();
+        int max= this->getV().size();
         for (int j=0;j<max;j++){
             this->_v[j]=this->_v[j]*d;
         } 
+    }
+
+    void Matrix::operator*(Matrix m){
+        
+    }
+
+    void Matrix::operator*=(Matrix m){
+
+    }
+    void Matrix::operator*=(double d){
+
+    };
+
+
+    void Matrix::operator==(const Matrix & m ){
+
+    }
+    void Matrix::operator<(const Matrix & m){
+
+    }
+    void Matrix::operator<=(const Matrix & m){
+
+    }
+    void Matrix::operator>(const Matrix & m){
+
+    }
+    void Matrix::operator>=(const Matrix & m){
+
+    }
+    void Matrix::operator!=(const Matrix & m){
+
+    }
+
+    void Matrix::operator<< (const Matrix & m){
+
+    }
+
+    void Matrix::operator>> (const Matrix & m){
+
     }
