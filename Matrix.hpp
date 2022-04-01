@@ -25,8 +25,6 @@ namespace zich{
             void setMatrix(vector<double> v,int r, int c); 
             
            
-
-            
             // addition
             Matrix operator+(int i); 
             Matrix operator+(const Matrix & m );
@@ -39,7 +37,6 @@ namespace zich{
             Matrix operator-(const Matrix & m);
             void operator-=(const Matrix & m );
             void operator-=(int i); // made func
-
 
 
             // increment decrement
@@ -57,12 +54,12 @@ namespace zich{
             
 
             // comparing
-            void operator==(const Matrix & m );
-            void operator<(const Matrix & m);
-            void operator<=(const Matrix & m);
-            void operator>(const Matrix & m);
-            void operator>=(const Matrix & m);
-            void operator!=(const Matrix & m);
+            bool operator==(const Matrix & m );
+            bool operator<(const Matrix & m);
+            bool operator<=(const Matrix & m);
+            bool operator>(const Matrix & m);
+            bool operator>=(const Matrix & m);
+            bool operator!=(const Matrix & m);
 
 
             //print

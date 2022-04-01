@@ -2,22 +2,22 @@
 
     using namespace zich;
 
-    void Matrix::setMatrix(vector<double> v,int r, int c){
+    void Matrix::setMatrix (vector<double> v,int r, int c){
         this->setRow(r);
         this->setCol(c);
         this->setV(v);
     }
 
-    Matrix::Matrix(vector<double> v, int r, int c){
+    Matrix::Matrix (vector<double> v, int r, int c){
         this->setMatrix(v,r,c);
     }
 
     
-    Matrix Matrix::operator+(int i){
+    Matrix Matrix::operator+ (int i){
 
     }
 
-    Matrix Matrix::operator+(const Matrix & m ){
+    Matrix Matrix::operator+ (const Matrix & m ){
         if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
             throw std::invalid_argument( "row or column dont match" );
         }
@@ -30,17 +30,14 @@
             new_v[j]=this_v[j]+m_v[j];
         }
         Matrix change{new_v,this->getCol(),this->getRow()};
-        
-       
-
     }
 
-    void Matrix::operator+=(const Matrix & m){
+    void Matrix::operator+= (const Matrix & m){
 
     }
 
 
-    void Matrix::operator+=(int i){
+    void Matrix::operator+= (int i){
         //int max=this->getRow()*this->getCol();
         int max= this->getV().size();
         for (int j=0;j<max;j++){
@@ -48,20 +45,20 @@
         } 
     }
 
-    Matrix Matrix::operator-(int i){
+    Matrix Matrix::operator- (int i){
 
     }
 
-    Matrix Matrix::operator-(const Matrix & m){
+    Matrix Matrix::operator- (const Matrix & m){
 
     }
 
-    void Matrix::operator-=(const Matrix & m ){
+    void Matrix::operator-= (const Matrix & m ){
 
     }
 
 
-    void Matrix::operator-=(int i){
+    void Matrix::operator-= (int i){
         int max= this->getV().size();
         for (int j=0;j<max;j++){
             this->_v[j]=this->_v[j]-i;
@@ -72,14 +69,14 @@
 
 
 
-    void Matrix:: operator++(){
+    void Matrix:: operator++ (){
         int max= this->getV().size();
         for (int i=0;i<max;i++){
             this->_v[i]++;
         }  
     }
 
-     void Matrix:: operator--(){
+     void Matrix:: operator-- (){
         int max= this->getV().size();
         for (int i=0;i<max;i++){
             this->_v[i]--;
@@ -87,10 +84,11 @@
     }
 
 
-    Matrix Matrix::operator++(int i){
+    Matrix Matrix::operator++ (int i){
 
     }
-   Matrix Matrix::operator--(int i){
+    
+    Matrix Matrix::operator-- (int i){
 
     }
 
@@ -99,42 +97,70 @@
 
 
 
-    void Matrix::operator*(double d){
+    void Matrix::operator* (double d){
         int max= this->getV().size();
         for (int j=0;j<max;j++){
             this->_v[j]=this->_v[j]*d;
         } 
     }
 
-    void Matrix::operator*(Matrix m){
+    void Matrix::operator* (Matrix m){
         
     }
 
-    void Matrix::operator*=(Matrix m){
+    void Matrix::operator*= (Matrix m){
 
     }
-    void Matrix::operator*=(double d){
+    void Matrix::operator*= (double d){
 
     };
 
 
-    void Matrix::operator==(const Matrix & m ){
-
+    bool Matrix::operator== (const Matrix & m ){
+        if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
+            throw std::invalid_argument( "row or column dont match" );
+        }
+        int max1 = this->getV().size();
+        double sum1 = 0;
+        double sum2 = 0;
+        for (int i=0; i<max1;i++){
+            sum1+=this->_v[i];
+            sum2+=m._v[i];
+        }
+        if(sum1==sum2){
+            return true;
+        }
+        return false;
     }
-    void Matrix::operator<(const Matrix & m){
 
+    bool Matrix::operator< (const Matrix & m){
+        if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
+            throw std::invalid_argument( "row or column dont match" );
+        }
     }
-    void Matrix::operator<=(const Matrix & m){
 
+    bool Matrix::operator<= (const Matrix & m){
+        if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
+            throw std::invalid_argument( "row or column dont match" );
+        }
     }
-    void Matrix::operator>(const Matrix & m){
 
+    bool Matrix::operator> (const Matrix & m){
+        if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
+            throw std::invalid_argument( "row or column dont match" );
+        }
     }
-    void Matrix::operator>=(const Matrix & m){
 
+    bool Matrix::operator>= (const Matrix & m){
+        if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
+            throw std::invalid_argument( "row or column dont match" );
+        }
     }
-    void Matrix::operator!=(const Matrix & m){
 
+    bool Matrix::operator!= (const Matrix & m){
+        if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
+            throw std::invalid_argument( "row or column dont match" );
+        }
     }
 
     void Matrix::operator<< (const Matrix & m){
