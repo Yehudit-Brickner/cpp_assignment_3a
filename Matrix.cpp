@@ -3,6 +3,16 @@
     using namespace zich;
 
     void Matrix::setMatrix (vector<double> v,int r, int c){
+        if( r<1 || c<1){
+            throw std::invalid_argument( "row or col invalid size" ); 
+        }
+        if(v.size()<1){
+           throw std::invalid_argument( " vector  is invalid" ); 
+        }
+        if(r*c!=v.size()){
+           throw std::invalid_argument( "size of vector doesnt match row*col" ); 
+        }
+
         this->setRow(r);
         this->setCol(c);
         this->setV(v);
