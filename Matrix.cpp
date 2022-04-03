@@ -68,7 +68,7 @@
         return change;
     }
 
-    void Matrix::operator+= (const Matrix & m){
+    Matrix Matrix::operator+= (const Matrix & m){
         if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
             throw std::invalid_argument( "row or column dont match" );
         } 
@@ -76,6 +76,7 @@
         for (unsigned long i=0; i<m_v.size();i++){
             this->_v[i]+=m_v[i];
         } 
+        return *this;
     }
 
     Matrix Matrix::operator- (){
@@ -83,7 +84,9 @@
         int c= this->getCol();
         vector<double>new_v=this->getV();
         for (unsigned long i=0;i<new_v.size();i++){
-            new_v[i]*=-1;
+            if(new_v[i]!=0){
+                new_v[i]*=-1;
+            }
         }
         //   cout<< "creating a new mat that is exactly the same" << endl;
         Matrix new_mat{new_v, r,c};
@@ -108,7 +111,7 @@
         return change;  
     }
 
-    void Matrix::operator-= (const Matrix & m ){
+    Matrix Matrix::operator-= (const Matrix & m ){
         if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
             throw std::invalid_argument( "row or column dont match" );
         } 
@@ -116,6 +119,7 @@
         for (unsigned long i=0; i<m_v.size();i++){
             this->_v[i]-=m_v[i];
         } 
+        return *this;
     }
 
     Matrix Matrix:: operator++ (){
@@ -169,15 +173,42 @@
          return *this;
     }
 
-    void Matrix::operator*= (Matrix m){
-
+    Matrix Matrix::operator*= (Matrix m){
+        return *this;
     }
     
-    void Matrix::operator*= (double d){
-
+    Matrix Matrix::operator*= (double d){
+        for (unsigned long i=0; i<this->_v.size();i++){
+            this->_v[i]*=d;
+        } 
+        return *this;
     }
 
     bool Matrix::operator== (const Matrix & m ){
+        if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
+            throw std::invalid_argument( "row or column dont match" );
+        }
+        // int max1 = this->getV().size();
+        // double sum1 = 0;
+        // double sum2 = 0;
+        // for (unsigned long i=0; i<max1;i++){
+        //     sum1+=this->_v[i];
+        //     sum2+=m._v[i];
+        // }
+        // if(sum1==sum2){
+        //     return true;
+        // }
+        // return false;
+        int max1 = this->getV().size();
+        for (unsigned long i=0; i<max1;i++){
+            if(this->_v[i]!=m._v[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    bool Matrix::operator< (const Matrix & m){
         if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
             throw std::invalid_argument( "row or column dont match" );
         }
@@ -188,15 +219,8 @@
             sum1+=this->_v[i];
             sum2+=m._v[i];
         }
-        if(sum1==sum2){
+        if(sum1<sum2){
             return true;
-        }
-        return false;
-    }
-
-    bool Matrix::operator< (const Matrix & m){
-        if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
-            throw std::invalid_argument( "row or column dont match" );
         }
         return false;
     }
@@ -205,6 +229,17 @@
         if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
             throw std::invalid_argument( "row or column dont match" );
         }
+        int max1 = this->getV().size();
+        double sum1 = 0;
+        double sum2 = 0;
+        for (unsigned long i=0; i<max1;i++){
+            sum1+=this->_v[i];
+            sum2+=m._v[i];
+        }
+        if(sum1<=sum2){
+            return true;
+        }
+        
         return false;
     }
 
@@ -212,25 +247,86 @@
         if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
             throw std::invalid_argument( "row or column dont match" );
         }
+        int max1 = this->getV().size();
+        double sum1 = 0;
+        double sum2 = 0;
+        for (unsigned long i=0; i<max1;i++){
+            sum1+=this->_v[i];
+            sum2+=m._v[i];
+        }
+        if(sum1>sum2){
+            return true;
+        }
         return false;
+        
     }
 
     bool Matrix::operator>= (const Matrix & m){
         if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
             throw std::invalid_argument( "row or column dont match" );
         }
+        int max1 = this->getV().size();
+        double sum1 = 0;
+        double sum2 = 0;
+        for (unsigned long i=0; i<max1;i++){
+            sum1+=this->_v[i];
+            sum2+=m._v[i];
+        }
+        if(sum1>=sum2){
+            return true;
+        }
         return false;
+       
     }
 
     bool Matrix::operator!= (const Matrix & m){
         if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
             throw std::invalid_argument( "row or column dont match" );
         }
+        int max1 = this->getV().size();
+        double sum1 = 0;
+        double sum2 = 0;
+        for (unsigned long i=0; i<max1;i++){
+            sum1+=this->_v[i];
+            sum2+=m._v[i];
+        }
+        if(sum1!=sum2){
+            return true;
+        }
         return false;
     }
 
     ostream& zich::operator<< (ostream& output,const Matrix & m){
+        int r=m.getRow();
+        int c=m.getCol();
+        string ans="";
+        unsigned long rl=( unsigned long)r;
+        unsigned long cl=( unsigned long)c;
+        unsigned long k=0;
+        for (unsigned long i=0;i<rl;i++){
+            ans.push_back('[');
+            cout<< '[';
+            for (unsigned long j=0;j<cl;j++){
+                ans.push_back(m._v[k]);
+                cout<< m._v[k];
+                if(j<cl-1){
+                    ans.push_back(' ');
+                    cout<< ' ';
+                }
+                k++;
+            }
+            ans.push_back(']');
+            cout << ']';
+            if(i<rl){
+                ans.push_back('\n');
+                cout << '\n';
+            } 
+        }
+        //return ans;
+        cout << ans<< endl;
+        //output << ans ;
         return output;
+
     }
 
     istream& zich::operator>>(istream& input,  Matrix& m){
