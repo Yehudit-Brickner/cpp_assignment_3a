@@ -264,12 +264,14 @@ TEST_CASE("operator*(mat other)"){
 TEST_CASE("operator==(mat other)"){
     std::vector<double> a = {1, 2, 3, 1, 2, 3, 1, 2, 3};
     Matrix mat1{a,3,3};
+    Matrix mat4{a,3,3};
     std::vector<double> b = {3, 2, 1, 3, 2, 1, 3, 2, 1};
     Matrix mat2{b,3,3};
     std::vector<double> c = {4,5,6,7};
     Matrix mat3{c,2,2};
-    CHECK((mat1==mat2)==true);
-    CHECK((mat2==mat1)==true);
+    CHECK((mat1==mat2)==false);
+    CHECK((mat2==mat1)==false);
+    CHECK((mat1==mat4)==true);
     CHECK_THROWS(mat1==mat3);
     CHECK_THROWS(mat2==mat3);
     CHECK_THROWS(mat3==mat2);
