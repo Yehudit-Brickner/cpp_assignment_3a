@@ -5,13 +5,16 @@
 
     void Matrix::setMatrix (vector<double> v,int r, int c){
         if( r<1 || c<1){
+            //cout <<"r*c "<< r*c << "s " << v.size()<< endl;
             throw std::invalid_argument( "row or col invalid size" ); 
         }
         if(v.size()<1){
-           throw std::invalid_argument( " vector  is invalid" ); 
+            //cout <<"r*c "<< r*c << "s " << v.size()<< endl;
+           throw std::invalid_argument( "vector  is invalid" ); 
         }
         if(r*c!=v.size()){
-           throw std::invalid_argument( "size of vector doesnt match row*col" ); 
+            //cout <<"r*c "<< r*c << "s " << v.size()<< endl; 
+            throw std::invalid_argument( "size of vector doesnt match row*col" ); 
         }
 
         this->setRow(r);
@@ -22,6 +25,7 @@
     Matrix::Matrix (vector<double> v, int r, int c){
         this->setMatrix(v,r,c);
     }
+
     Matrix::Matrix(const Matrix & other){
         int r=other.getRow();
         int c =other.getCol();
@@ -36,10 +40,14 @@
         this->setRow(r);
         this->setV(new_v);
     }
-
     
     Matrix Matrix::operator+ (){
-       return *this;
+      int r= this->getRow();
+      int c= this->getCol();
+      vector<double>new_v=this->getV();
+    //   cout<< "creating a new mat that is exactly the same" << endl;
+      Matrix new_mat{new_v, r,c};
+      return new_mat;
     }
 
     Matrix Matrix::operator+ (const Matrix & m ){
@@ -50,67 +58,100 @@
         vector<double> m_v=m.getV();
         unsigned long s=this_v.size();
         vector<double> new_v;
-        new_v.reserve(s);
+        new_v.resize(s);
         for (unsigned int j=0;j<s;j++){
-            new_v[j]=this_v[j]+m_v[j];
+            new_v.at(j)=this_v.at(j)+m_v.at(j);
         }
-        Matrix change{new_v,this->getCol(),this->getRow()};
+        int c=this->getCol();
+        int r=this->getRow();
+        Matrix change{new_v,r,c};
         return change;
     }
 
     void Matrix::operator+= (const Matrix & m){
-         
+        if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
+            throw std::invalid_argument( "row or column dont match" );
+        } 
+        vector<double> m_v=m.getV();
+        for (unsigned long i=0; i<m_v.size();i++){
+            this->_v[i]+=m_v[i];
+        } 
     }
 
-
-
-
     Matrix Matrix::operator- (){
-         return *this;
+        int r= this->getRow();
+        int c= this->getCol();
+        vector<double>new_v=this->getV();
+        for (unsigned long i=0;i<new_v.size();i++){
+            new_v[i]*=-1;
+        }
+        //   cout<< "creating a new mat that is exactly the same" << endl;
+        Matrix new_mat{new_v, r,c};
+        return new_mat;
     }
 
     Matrix Matrix::operator- (const Matrix & m){
-         return *this;
+        if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
+            throw std::invalid_argument( "row or column dont match" );
+        } 
+        vector<double> this_v=this->getV();
+        vector<double> m_v=m.getV();
+        unsigned long s=this_v.size();
+        vector<double> new_v;
+        new_v.resize(s);
+        for (unsigned int j=0;j<s;j++){
+            new_v.at(j)=this_v.at(j)-m_v.at(j);
+        }
+        int c=this->getCol();
+        int r=this->getRow();
+        Matrix change{new_v,r,c};
+        return change;  
     }
 
     void Matrix::operator-= (const Matrix & m ){
-
+        if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
+            throw std::invalid_argument( "row or column dont match" );
+        } 
+        vector<double> m_v=m.getV();
+        for (unsigned long i=0; i<m_v.size();i++){
+            this->_v[i]-=m_v[i];
+        } 
     }
-
-
-
-
-
 
     Matrix Matrix:: operator++ (){
         int max= this->getV().size();
         for (unsigned long i=0;i<max;i++){
             this->_v[i]++;
         }  
-         return *this;
+        return *this;
     }
 
-     Matrix Matrix:: operator-- (){
+    Matrix Matrix:: operator-- (){
         int max= this->getV().size();
         for (unsigned long i=0;i<max;i++){
             this->_v[i]--;
         } 
-         return *this; 
+        return *this; 
     }
 
-
     Matrix Matrix::operator++ (int i){
-        return *this;
+        Matrix *pmat= this;
+        int max= this->getV().size();
+        for (unsigned long i=0;i<max;i++){
+            this->_v[i]++;
+        }
+        return *pmat;
     }
     
     Matrix Matrix::operator-- (int i){
-         return *this;
+         Matrix *pmat= this;
+        int max= this->getV().size();
+        for (unsigned long i=0;i<max;i++){
+            this->_v[i]--;
+        }
+        return *pmat;
+
     }
-
-
-
-
-
 
     Matrix Matrix::operator* (double d){
         int max= this->getV().size();
@@ -120,26 +161,21 @@
          return *this;
     }
 
-
-    Matrix& operator*(double d, Matrix m){
-       Matrix mnew=m*d;
-       return mnew;
+    Matrix& zich::operator*(double d, Matrix &m){
+        return m;
     }
-
 
     Matrix Matrix::operator* (Matrix m){
          return *this;
     }
 
-
-
     void Matrix::operator*= (Matrix m){
 
     }
+    
     void Matrix::operator*= (double d){
 
     }
-
 
     bool Matrix::operator== (const Matrix & m ){
         if(this->getCol()!=m.getCol()||this->getRow()!=m.getRow()){
@@ -193,10 +229,10 @@
         return false;
     }
 
-   ostream& operator<< (ostream& output,const Matrix & m){
+    ostream& zich::operator<< (ostream& output,const Matrix & m){
         return output;
     }
 
-   istream& operator>> (istream& input,const Matrix & m){
-       return input;
+    istream& zich::operator>>(istream& input,  Matrix& m){
+        return input;
     }

@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+
 using namespace std;
 
 namespace zich{
@@ -58,7 +59,7 @@ namespace zich{
         
             // multiplacation
             Matrix operator*(double d);
-            friend Matrix& operator*(double d, Matrix m); // not in cpp
+            friend Matrix& operator*(double d, Matrix &m); 
             Matrix operator*(const Matrix m);
             void operator*=(const Matrix m);
             void operator*=(double d);
@@ -75,7 +76,7 @@ namespace zich{
 
             //print
             friend ostream& operator<<(ostream& output, const Matrix& m); // not in cpp
-            friend ostream& operator>>(ostream& input,  Matrix& m); // not in cpp
+            friend istream& operator>>(istream& input,  Matrix& m); // not in cpp
 
     };
 }
