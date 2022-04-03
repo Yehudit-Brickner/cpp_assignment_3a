@@ -16,7 +16,10 @@ namespace zich{
             void setV(vector<double>& v){this->_v=v;}
         
         public:
+
+            //constructor
             Matrix(vector<double> v= {1},int r=1, int c=1);
+            Matrix(const Matrix& other);
            
             int getRow() const {return this->_row;}
             int getCol() const {return this->_col;}
@@ -30,29 +33,33 @@ namespace zich{
             
            
             // addition
-            Matrix operator+(int i); 
+            
             Matrix operator+(const Matrix & m );
+            Matrix operator+();
             void operator+=(const Matrix & m);
-            void operator+=(int i); // made func
+           
 
 
             // subtraction
-            Matrix operator-(int i); 
             Matrix operator-(const Matrix & m);
+            Matrix operator-();
             void operator-=(const Matrix & m );
-            void operator-=(int i); // made func
+        
 
 
             // increment decrement
-            void operator++(); // made func
-            void operator--(); // made func
+            //prefix
+            Matrix operator++(); // made func
+            Matrix operator--(); // made func
+            //postfix
             Matrix operator++(int i);
             Matrix operator--(int i);
 
         
             // multiplacation
-            void operator*(double d);
-            void operator*(const Matrix m);
+            Matrix operator*(double d);
+            friend Matrix& operator*(double d, Matrix m); // not in cpp
+            Matrix operator*(const Matrix m);
             void operator*=(const Matrix m);
             void operator*=(double d);
             
@@ -67,9 +74,8 @@ namespace zich{
 
 
             //print
-            void operator<< (const Matrix & m);
-            void operator>> (const Matrix & m);
-            void cout(const Matrix m);
+            friend ostream& operator<<(ostream& output, const Matrix& m); // not in cpp
+            friend ostream& operator>>(ostream& input,  Matrix& m); // not in cpp
 
     };
 }
