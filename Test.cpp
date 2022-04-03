@@ -23,10 +23,6 @@ TEST_CASE("building a matrix"){
     CHECK_THROWS(Matrix mat1(b,3,3));
 }
 
-
-
-
-
 TEST_CASE("operator+()"){
    std::vector<double> a = {1, 0, 0, 0, 1, 0, 0, 0, 1};
    Matrix mat1{a,3,3}; 
@@ -51,30 +47,23 @@ TEST_CASE("operator+(mat other)"){
     CHECK(mat_new1.getV()==mat_good.getV());
     CHECK_THROWS(mat1+mat3);
     CHECK_THROWS(mat3+mat1);
-
-
-
 }
 
-// TEST_CASE("operator+=()"){
-//     std::vector<double> a = {1, 0, 0, 0, 1, 0, 0, 0, 1};  
-//     std::vector<double> b = {5, 0, 0, 0, 5, 0, 0, 0, 5};
-//     std::vector<double> c = {6, 0, 0, 0, 6, 0, 0, 0, 6};
-//     Matrix mat1{a,3,3};
-//     Matrix mat2{b,3,3};
-//     Matrix mat3{b,1,9};
-//     Matrix mat_good{c,3,3};
-//     mat1+mat2;
-//     CHECK(mat1.getCol()==mat_good.getCol());
-//     CHECK(mat1.getRow()==mat_good.getRow());
-//     CHECK(mat1.getV()==mat_good.getV());
-//     CHECK_THROWS(mat1+mat3);
-//     CHECK_THROWS(mat3+mat1);
-// }
-
-
-
-
+TEST_CASE("operator+=(mat other)"){
+    std::vector<double> a = {1, 0, 0, 0, 1, 0, 0, 0, 1};  
+    std::vector<double> b = {5, 0, 0, 0, 5, 0, 0, 0, 5};
+    std::vector<double> c = {6, 0, 0, 0, 6, 0, 0, 0, 6};
+    Matrix mat1{a,3,3};
+    Matrix mat2{b,3,3};
+    Matrix mat3{b,1,9};
+    mat1+=mat2;
+    Matrix mat_good{c,3,3};
+    CHECK(mat1.getCol()==mat_good.getCol());
+    CHECK(mat1.getRow()==mat_good.getRow());
+    CHECK(mat1.getV()==mat_good.getV());
+    CHECK_THROWS(mat1+=mat3);
+    CHECK_THROWS(mat3+=mat1);
+}
 
 TEST_CASE("operator-()"){
    std::vector<double> a = {1, 0, 0, 0, 1, 0, 0, 0, 1}; 
@@ -100,58 +89,109 @@ std::vector<double> a = {1, 0, 0, 0, 1, 0, 0, 0, 1};
     CHECK(mat_new1.getV()==mat_good.getV());
     CHECK_THROWS(mat1-mat3);
     CHECK_THROWS(mat3-mat1);
-
 }
 
+TEST_CASE("operator-=(mat other)"){
+    std::vector<double> a = {1, 0, 0, 0, 1, 0, 0, 0, 1};  
+    std::vector<double> b = {5, 0, 0, 0, 5, 0, 0, 0, 5};
+    std::vector<double> c = {6, 0, 0, 0, 6, 0, 0, 0, 6};
+    Matrix mat1{c,3,3};
+    Matrix mat2{a,3,3};
+    Matrix mat3{b,1,9};
+    mat1-=mat2;
+    Matrix mat_good{b,3,3};
+    CHECK(mat1.getCol()==mat_good.getCol());
+    CHECK(mat1.getRow()==mat_good.getRow());
+    CHECK(mat1.getV()==mat_good.getV());
+    CHECK_THROWS(mat1-=mat3);
+    CHECK_THROWS(mat3-=mat1);
+}
 
-// TEST_CASE("increment to new matrix"){
-//     std::vector<double> a = {1, 0, 0, 0, 1, 0, 0, 0, 1};
-//     Matrix mat1{a,3,3};
-//     std::vector<double> b ={2, 0, 0, 0, 2, 0, 0, 0, 2};
-//     Matrix new_mat1=mat1++;
-//     CHECK(new_mat1.getV()==b);
-//     Matrix new_mat2=mat1++;
-//     CHECK(new_mat1.getV()==b);
-// }
+TEST_CASE("operater++() prefix"){
+    std::vector<double> a = {1, 0, 0, 0, 1, 0, 0, 0, 1};
+    std::vector<double> b ={2, 0, 0, 0, 2, 0, 0, 0, 2};
+    std::vector<double> c ={3, 0, 0, 0, 3, 0, 0, 0, 3};
+    Matrix mat1{a,3,3};
+    Matrix mat2{b,3,3};
+    Matrix mat3{c,3,3};
+    mat1++;
+    CHECK(mat1.getCol()==mat2.getCol());
+    CHECK(mat1.getRow()==mat2.getRow());
+    CHECK(mat1.getV()==mat2.getV());
+    mat1++;
+    CHECK(mat1.getCol()==mat3.getCol());
+    CHECK(mat1.getRow()==mat3.getRow());
+    CHECK(mat1.getV()==mat3.getV());
+}
 
-// TEST_CASE("increment"){   
-//     std::vector<double> a = {1, 0, 0, 0, 1, 0, 0, 0, 1};
-//     std::vector<double> b = {1, 0, 0, 0, 1, 0, 0, 0, 1};
-//     Matrix mat1{a,3,3};  
-//     for (int i=1; i<5;i++){
-//         mat1++;
-//         b[0]=b[0]+1;
-//         b[4]=b[4]+1;
-//         b[8]=b[8]+1;
-//         CHECK(mat1.getV()==b);
-//     } 
-// }
+TEST_CASE("operator--() prefix"){   
+    std::vector<double> a = {1, 0, 0, 0, 1, 0, 0, 0, 1};
+    std::vector<double> b ={2, 0, 0, 0, 2, 0, 0, 0, 2};
+    std::vector<double> c ={3, 0, 0, 0, 3, 0, 0, 0, 3};
+    Matrix mat1{a,3,3};
+    Matrix mat2{b,3,3};
+    Matrix mat3{c,3,3};
+    mat3--;
+    CHECK(mat3.getCol()==mat2.getCol());
+    CHECK(mat3.getRow()==mat2.getRow());
+    CHECK(mat3.getV()==mat2.getV());
+    mat3--;
+    CHECK(mat3.getCol()==mat1.getCol());
+    CHECK(mat3.getRow()==mat1.getRow());
+    CHECK(mat3.getV()==mat1.getV());
+}
 
-// TEST_CASE("decrement to new matrix"){
-//     std::vector<double> identity = {2, 0, 0, 0, 2, 0, 0, 0, 2};
-//     Matrix mat1{identity,3,3}; 
-//     std::vector<double> b = {1, 0, 0, 0, 1, 0, 0, 0, 1};
-//     Matrix new_mat1=mat1--;
-//     CHECK(new_mat1.getV()==b);
-//     Matrix new_mat2=mat1++;
-//     CHECK(new_mat1.getV()==b);
+TEST_CASE("operater++(int i) postfix"){
+    std::vector<double> a = {1, 0, 0, 0, 1, 0, 0, 0, 1};
+    std::vector<double> b ={2, 1, 1, 1, 2, 1, 1, 1, 2};
+    std::vector<double> c ={3, 2, 2, 2, 3, 2, 2, 2, 3};
+    Matrix mat1{a,3,3};
+    Matrix mat2{b,3,3};
+    Matrix mat3{c,3,3};
+    Matrix old1{a,3,3};
+    Matrix old2{b,3,3};
+    Matrix new1 = ++mat1;
+    CHECK(new1.getCol()==old1.getCol());
+    CHECK(new1.getRow()==old1.getRow());
+    CHECK(new1.getV()==old1.getV());
+    CHECK(mat1.getCol()==mat2.getCol());
+    CHECK(mat1.getRow()==mat2.getRow());
+    CHECK(mat1.getV()==mat2.getV());
+    Matrix new2 = ++mat1;
+    CHECK(new2.getCol()==old2.getCol());
+    CHECK(new2.getRow()==old2.getRow());
+    CHECK(new2.getV()==old2.getV());
+    CHECK(mat1.getCol()==mat3.getCol());
+    CHECK(mat1.getRow()==mat3.getRow());
+    CHECK(mat1.getV()==mat3.getV());
+}
 
-// }
+TEST_CASE("operator--(int i) postfix"){   
+    std::vector<double> a = {1, 0, 0, 0, 1, 0, 0, 0, 1};
+    std::vector<double> b ={2, 1, 1, 1, 2, 1, 1, 1, 2};
+    std::vector<double> c ={3, 2, 2, 2, 3, 2, 2, 2, 3};
+    Matrix mat1{a,3,3};
+    Matrix mat2{b,3,3};
+    Matrix mat3{c,3,3};
+    Matrix old2{b,3,3};
+    Matrix old1{c,3,3};
+    Matrix new1 = --mat3;
+    CHECK(new1.getCol()==old1.getCol());
+    CHECK(new1.getRow()==old1.getRow());
+    CHECK(new1.getV()==old1.getV());
+    CHECK(mat3.getCol()==mat2.getCol());
+    CHECK(mat3.getRow()==mat2.getRow());
+    CHECK(mat3.getV()==mat2.getV());
+    Matrix new2 = --mat3;
+    CHECK(new2.getCol()==old2.getCol());
+    CHECK(new2.getRow()==old2.getRow());
+    CHECK(new2.getV()==old2.getV());
+    CHECK(mat3.getCol()==mat1.getCol());
+    CHECK(mat3.getRow()==mat1.getRow());
+    CHECK(mat3.getV()==mat1.getV());
+}
 
-// TEST_CASE("decrement to same matrix"){
-//     std::vector<double> a = {10, 0, 0, 0, 10, 0, 0, 0, 10};
-//     std::vector<double> b = {1, 0, 0, 0, 1, 0, 0, 0, 1};
-//     Matrix mat1{a,3,3};  
-//     for (int i=1; i<5;i++){
-//         mat1++;
-//         b[0]=b[0]-1;
-//         b[4]=b[4]-1;
-//         b[8]=b[8]-1;
-//         CHECK(mat1.getV()==b);
-//     } 
-// }
-
-TEST_CASE("operator*=()"){
+TEST_CASE("operator*=(double d)"){
     std::vector<double> a = {1, 0, 0, 0, 1, 0, 0, 0, 1};
     std::vector<double> b = {5, 0, 0, 0, 5, 0, 0, 0, 5};
     std::vector<double> c = {17.5, 0, 0, 0, 17.5, 0, 0, 0, 17.5};
@@ -162,39 +202,64 @@ TEST_CASE("operator*=()"){
     CHECK(mat1.getV()==c);
 }
 
-TEST_CASE("operator*()"){
-    std::vector<double> a = {1, 2,3};
-    std::vector<double> b = {1,1,1, 1,1,1, 1,1,1};
-    std::vector<double> c = {6,6,6, 6,6,6, 6,6,6};
-    Matrix mat1{a,3,1};
-    Matrix mat2{b,3,3};
-    Matrix mat_good{c,3,3};
-    Matrix newm=mat1*mat2;
-    CHECK(newm.getCol()==mat_good.getCol());
-    CHECK(newm.getRow()==mat_good.getRow());
-    CHECK(newm.getV()==mat_good.getV());
-    
-}
-
 TEST_CASE("operator*=(mat other)"){
     std::vector<double> a = {1, 2,3};
     std::vector<double> b = {1,1,1, 1,1,1, 1,1,1};
     std::vector<double> c = {6,6,6, 6,6,6, 6,6,6};
+    std::vector<double> d = {1,2,3,4};
     Matrix mat1{a,3,1};
     Matrix mat2{b,3,3};
+    Matrix mat3{d,4,1}; 
+    Matrix mat4{d,2,2};
     Matrix mat_good{c,3,3};
     mat1*=mat2;
     CHECK(mat1.getCol()==mat_good.getCol());
     CHECK(mat1.getRow()==mat_good.getRow());
     CHECK(mat1.getV()==mat_good.getV());
-
-
-
+    CHECK_THROWS(mat3*=mat1);
+    CHECK_THROWS(mat4*=mat1);
 }
 
 TEST_CASE("operator*(mat other)"){
+    std::vector<double> a = {1, 2,3};
+    std::vector<double> b = {1,1,1, 1,1,1, 1,1,1};
+    std::vector<double> c = {6,6,6, 6,6,6, 6,6,6};
+    std::vector<double> d = {1,2,3,4};
+    Matrix mat1{a,3,1};
+    Matrix mat2{b,3,3};
+    Matrix mat3{d,4,1}; 
+    Matrix mat4{d,2,2};
+    Matrix mat_good{c,3,3};
+    Matrix newm=mat1*mat2;
+    CHECK(newm.getCol()==mat_good.getCol());
+    CHECK(newm.getRow()==mat_good.getRow());
+    CHECK(newm.getV()==mat_good.getV());
+    CHECK_THROWS(mat3*=mat1);
+    CHECK_THROWS(mat4*=mat1);
 
+    
 }
+
+TEST_CASE("operator*(mat other)"){
+    std::vector<double> a = {1, 0, 0, 0, 1, 0, 0, 0, 1};
+    std::vector<double> b = {5, 0, 0, 0, 5, 0, 0, 0, 5};
+    std::vector<double> c = {3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5};
+    Matrix mat1{a,3,3};
+    Matrix check1={b,3,3};
+    Matrix check2={c,3,3};
+    Matrix new1= mat1*5;
+    CHECK(new1.getCol()==check1.getCol());
+    CHECK(new1.getRow()==check1.getRow());
+    CHECK(new1.getV()==check1.getV());
+    Matrix new2= mat1*3.5;
+    CHECK(new2.getCol()==check2.getCol());
+    CHECK(new2.getRow()==check2.getRow());
+    CHECK(new2.getV()==check2.getV());
+    
+}
+
+// tets case for mat * double
+
 
 TEST_CASE("operator==(mat other)"){
     std::vector<double> a = {1, 2, 3, 1, 2, 3, 1, 2, 3};
@@ -293,7 +358,7 @@ std::vector<double> a = {1, 2, 3, 1, 2, 3, 1, 2, 3};
 }
 
 TEST_CASE("operator!=(mat other)"){
-std::vector<double> a = {1, 2, 3, 1, 2, 3, 1, 2, 3};
+    std::vector<double> a = {1, 2, 3, 1, 2, 3, 1, 2, 3};
     Matrix mat1{a,3,3};
     std::vector<double> b = {3, 2, 1, 3, 2, 1, 3, 2, 1};
     Matrix mat2{b,3,3};
@@ -312,11 +377,22 @@ std::vector<double> a = {1, 2, 3, 1, 2, 3, 1, 2, 3};
     CHECK_THROWS(mat4!=mat3);
 }
 
-
-
-
 TEST_CASE("operator<<"){
+    std::vector<double> a = {1, 2, 3, 1, 2, 3, 1, 2, 3};
+    Matrix mat1{a,3,3};  
+    CHECK((cout<< mat1<< endl)="[1 2 3]\n[1 2 3]\n[1 2 3]");
+    std::vector<double> b = {1, 2, 3, 4,5,6,7,8,9};
+    Matrix mat2{b,1,9};  
+    CHECK((cout<< mat2<< endl)="[1 2 3 4 5 6 7 8 9]");
+    Matrix mat3{b,1,9};  
+    CHECK((cout<< mat3<< endl)="[1]\n[2]\n[3]\n[4]\n[5]\n[6]\n[7]\n[8]\n[9]");
 }
 
 TEST_CASE("operator>>"){
+    std::vector<double> a = {1, 2, 3, 1, 2, 3, 1, 2, 3};
+    Matrix mat1{a,3,3};  
+    // Matrix mat2= cin>> 1 2 3 4 5 6 7 8 9, 3, 3;
+    // CHECK(mat1.getCol()==mat2.getCol());
+    // CHECK(mat1.getRow()==mat2.getRow());
+    // CHECK(mat1.getV()==mat2.getV());
 }

@@ -121,10 +121,10 @@
     }
 
 
-//    Matrix& operator*(double d, Matrix m){
-//        Matrix mnew=m*d;
-//        return mnew;
-//     }
+    Matrix& operator*(double d, Matrix m){
+       Matrix mnew=m*d;
+       return mnew;
+    }
 
 
     Matrix Matrix::operator* (Matrix m){
