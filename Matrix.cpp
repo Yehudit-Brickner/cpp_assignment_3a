@@ -167,19 +167,20 @@
          return *this;
     }
 
-    Matrix& zich::operator*(double d, Matrix &m){
+    Matrix zich::operator*(double d, Matrix &m){
         vector<double> matv=m.getV();
         for (unsigned long i=0; i<matv.size();i++){
             matv[i]*=d;
         }
         int r=m.getRow();
         int c=m.getCol();
+        Matrix mat{matv,r,c};
         //Matrix ans1{m.getV(), m.getRow(),m.getCol()};
-        Matrix * ptrmat= new Matrix(matv,r,c);
+        //Matrix * ptrmat= new Matrix(matv,r,c);
         // ptrmat->setCol(c);
         // ptrmat->setRow(r);
         // ptrmat->setV(matv);
-        return *ptrmat;
+        return mat;
     }
 
     Matrix Matrix::operator* (const Matrix & m){

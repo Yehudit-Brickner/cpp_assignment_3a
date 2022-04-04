@@ -298,7 +298,7 @@ TEST_CASE("operator*(double d, mat other)"){
     for (unsigned i=0;i<new_v.size();i++){ 
         CHECK(new_v[i]==b[i]);
     }
-    new1.~Matrix();
+    //new1.~Matrix();
     Matrix new2= 3.5*mat1;
     CHECK(new2.getCol()==check2.getCol());
     CHECK(new2.getRow()==check2.getRow());
@@ -307,7 +307,7 @@ TEST_CASE("operator*(double d, mat other)"){
     for (unsigned i=0;i<new_v.size();i++){
         CHECK(new_v[i]==c[i]);
     }
-    new2.~Matrix();
+    //new2.~Matrix();
 
 
 }
@@ -376,7 +376,7 @@ TEST_CASE("operator==(mat other)"){
     CHECK((mat1==mat2)==false);
     CHECK((mat2==mat1)==false);
     CHECK((mat1==mat4)==true);
-    CHECK_THROWS((mat1==mat3));
+    // CHECK_THROWS((mat1==mat3));
     // CHECK_THROWS(mat2==mat3);
     // CHECK_THROWS(mat3==mat2);
     // CHECK_THROWS(mat3==mat2);
@@ -397,7 +397,7 @@ TEST_CASE("operator<(mat other)"){
     CHECK((mat2<mat3)==false);
     CHECK((mat3<mat1)==true);
     CHECK((mat3<mat2)==true);
-    // CHECK_THROWS(mat4<mat1);
+    //CHECK_THROWS(mat4<mat1);
     // CHECK_THROWS(mat4<mat2);
     // CHECK_THROWS(mat4<mat3);
 }

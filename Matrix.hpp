@@ -22,8 +22,8 @@ namespace zich{
             Matrix(vector<double> v= {1},int r=1, int c=1);
             Matrix(const Matrix& other);
             ~Matrix(){
-                cout<< "destroyed?"<< endl;
-                this->_v.clear();
+               // cout<< "destroyed?"<< endl;
+                //this->_v.clear();
             }
 
             int getRow() const {return this->_row;}
@@ -63,7 +63,8 @@ namespace zich{
         
             // multiplacation
             Matrix operator*(double d);
-            friend Matrix& operator*(double d, Matrix & m); 
+            friend Matrix operator*(double d, Matrix & m); 
+            //friend &Matrix operator*(double d, Matrix & m); 
             Matrix operator*(const Matrix & m);
             Matrix operator*=(const Matrix & m);
             Matrix operator*=(double d);
