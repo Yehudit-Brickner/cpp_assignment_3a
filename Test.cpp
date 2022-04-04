@@ -4,7 +4,10 @@
 
 #include <string>
 #include <vector>
+#include <fstream>
 #include <iostream>
+#include <sstream>
+#include <assert.h>
 // #include <ctime>
 // #include <random>
 using namespace zich;
@@ -376,10 +379,10 @@ TEST_CASE("operator==(mat other)"){
     CHECK((mat1==mat2)==false);
     CHECK((mat2==mat1)==false);
     CHECK((mat1==mat4)==true);
-    // CHECK_THROWS((mat1==mat3));
-    // CHECK_THROWS(mat2==mat3);
-    // CHECK_THROWS(mat3==mat2);
-    // CHECK_THROWS(mat3==mat2);
+    CHECK_THROWS(if(mat1==mat3));
+    CHECK_THROWS(if(mat2==mat3));
+    CHECK_THROWS(if(mat3==mat2));
+    CHECK_THROWS(if(mat3==mat2));
 }
 
 TEST_CASE("operator<(mat other)"){
@@ -397,9 +400,9 @@ TEST_CASE("operator<(mat other)"){
     CHECK((mat2<mat3)==false);
     CHECK((mat3<mat1)==true);
     CHECK((mat3<mat2)==true);
-    //CHECK_THROWS(mat4<mat1);
-    // CHECK_THROWS(mat4<mat2);
-    // CHECK_THROWS(mat4<mat3);
+    CHECK_THROWS(if(mat4<mat1));
+    CHECK_THROWS(if(mat4<mat2));
+    CHECK_THROWS(if(mat4<mat3));
 }
 
 TEST_CASE("operator<=(mat other)"){
@@ -417,9 +420,9 @@ TEST_CASE("operator<=(mat other)"){
     CHECK((mat2<=mat3)==false);
     CHECK((mat3<=mat1)==true);
     CHECK((mat3<=mat2)==true);
-    // CHECK_THROWS(mat4<=mat1);
-    // CHECK_THROWS(mat4<=mat2);
-    // CHECK_THROWS(mat4<=mat3);
+    CHECK_THROWS(if(mat4<=mat1));
+    CHECK_THROWS(if(mat4<=mat2));
+    CHECK_THROWS(if(mat4<=mat3));
 }
 
 TEST_CASE("operator>=(mat other)"){
@@ -437,9 +440,9 @@ TEST_CASE("operator>=(mat other)"){
     CHECK((mat2>=mat3)==true);
     CHECK((mat3>=mat1)==false);
     CHECK((mat3>=mat2)==false);
-    // CHECK_THROWS(mat4>=mat1);
-    // CHECK_THROWS(mat4>=mat2);
-    // CHECK_THROWS(mat4>=mat3);
+    CHECK_THROWS(if(mat4>=mat1));
+    CHECK_THROWS(if(mat4>=mat2));
+    CHECK_THROWS(if(mat4>=mat3));
 }
 
 TEST_CASE("operator>(mat other)"){
@@ -457,9 +460,9 @@ std::vector<double> a = {1, 2, 3, 1, 2, 3, 1, 2, 3};
     CHECK((mat2>mat3)==true);
     CHECK((mat3>mat1)==false);
     CHECK((mat3>mat2)==false);
-    // CHECK_THROWS(mat4>mat1);
-    // CHECK_THROWS(mat4>mat2);
-    // CHECK_THROWS(mat4>mat3);
+    CHECK_THROWS(if(mat4>mat1));
+    CHECK_THROWS(if(mat4>mat2));
+    CHECK_THROWS(if(mat4>mat3));
 }
 
 TEST_CASE("operator!=(mat other)"){
@@ -477,16 +480,37 @@ TEST_CASE("operator!=(mat other)"){
     CHECK((mat2!=mat3)==true);
     CHECK((mat3!=mat1)==true);
     CHECK((mat3!=mat2)==true);
-    // CHECK_THROWS(mat4!=mat1);
-    // CHECK_THROWS(mat4!=mat2);
-    // CHECK_THROWS(mat4!=mat3);
+    CHECK_THROWS(if (mat4!=mat1));
+    CHECK_THROWS(if(mat4!=mat2));
+    CHECK_THROWS(if(mat4!=mat3));
 }
 
-TEST_CASE("operator<<"){
+TEST_CASE("operator<< and operator>>"){
     std::ostream out( NULL ); 
     std::vector<double> a = {1, 2, 3, 1, 2, 3, 1, 2, 3};
     Matrix mat1{a,3,3};
     cout << mat1 << endl;
+    Matrix mat2;;
+       
+        string s="1 2 3 , 1 2 3 , 1 2 3 ";
+        istringstream mat_input(s);
+        for (int i=0; i<s.length();i++){
+        mat_input >> mat2   ;
+        }
+        if (!mat_input) {
+            cout << "Format error!" << endl;
+        }
+        cout << mat2 << endl << endl;
+        assert (mat2==mat1);
+
+     
+
+
+
+
+
+
+
     // std::vector<double> b = {1, 2, 3, 4,5,6,7,8,9};
     // Matrix mat2{b,1,9};  
     // CHECK((<< mat2)=="[1 2 3 4 5 6 7 8 9]");

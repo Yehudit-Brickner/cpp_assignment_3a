@@ -1,6 +1,19 @@
     #include "Matrix.hpp"
     #include <iostream>
     #include <stdexcept>
+    #include <string>
+    #include <vector>
+    #include <sstream>
+
+
+
+
+
+
+
+
+
+
     using namespace zich;
 
     void Matrix::setMatrix (vector<double> & v,int r, int c){
@@ -264,8 +277,10 @@
                 k++;
             }             
         }
-        this->setRow(this->getRow());
-        this->setCol(m.getCol());
+        int r=this->getRow();
+        int c= m.getCol();
+        this->setRow(r);
+        this->setCol(c);
         this->setV(new_v);
         return *this;
     }
@@ -401,7 +416,8 @@
             output<< '[';
             for (unsigned long j=0;j<cl;j++){
                 //ans.push_back(m._v[k]);
-                cout<< m._v[k];
+                //cout<< m._v[k];
+                output<< m._v[k];
                 if(j<cl-1){
                     //ans.push_back(' ');
                     output<< ' ';
@@ -410,10 +426,11 @@
             }
             //ans.push_back(']');
             output << ']';
-            if(i<rl){
-                //ans.push_back('\n');
-                output << '\n';
-            } 
+            output << '\n';
+            // if(i<rl){
+            //     //ans.push_back('\n');
+            //     output << '\n';
+            // } 
         }
         //return ans;
         //output << ans<< endl;
@@ -424,17 +441,56 @@
 
     istream& zich::operator>>(istream& input,  Matrix& m){
         
-        cout<< "please enter the amount of rows"<< endl; 
-        input >> m._row;
-        cout<< "please enter the amount of cols"<< endl; 
-        input >> m._col;
-        vector<double> new_v;
-        unsigned long s=(unsigned long)(m._col*m._row);
-        new_v.resize(s);
-        cout<< "please enter the marix values"<< endl; 
-        for (unsigned long i=0; i<s;i++){
-            input >> new_v[i];
+
+            // needs work!!!!!!!
+
+
+        // cout<< "please enter the amount of rows"<< endl; 
+        // input >> m._row;
+        // cout<< "please enter the amount of cols"<< endl; 
+        // input >> m._col;
+        // vector<double> new_v;
+        // unsigned long co=(unsigned long)(m._col);
+        // unsigned long ro=(unsigned long)(m._row);
+        // unsigned long s=co*ro;
+        // new_v.resize(s);
+        // cout<< "please enter the marix values"<< endl; 
+        // for (unsigned long i=0; i<s;i++){
+        //     input >> new_v[i];
+        // }
+        // m._v=new_v;
+        // return input;
+        cout<< "first time called" << endl;
+        string s;
+        input>> s;
+        cout << s<<endl;
+        stringstream test(s);
+        string segment;
+        vector<string> seglist;
+        vector<string> nums;
+        vector<double> v;
+        int row=1;
+        int col=1;
+        while(getline(test, segment, ',')) {
+            seglist.push_back(segment);
+            cout<< segment<< endl;
         }
-        m._v=new_v;
+        row=seglist.size();
+        for (unsigned long i=0; i<seglist.size();i++){
+                stringstream n(seglist[i]);
+            while(getline(n, segment, ' ')) {
+                nums.push_back(segment);
+            }
+            for (unsigned long j=0; i<nums.size();i++){
+                v.push_back(stod(nums[j]));
+            }
+            nums.clear();
+        }
+        int v_size=(int)v.size();
+        if(v_size/row>0) {
+            col=v_size/row;
+        }
+        cout<< "row "<<row<<" col "<< col<< endl;
+        Matrix new_m{v,row,col};
         return input;
     }
