@@ -21,7 +21,11 @@ namespace zich{
             //constructor
             Matrix(vector<double> v= {1},int r=1, int c=1);
             Matrix(const Matrix& other);
-           
+            ~Matrix(){
+                cout<< "destroyed?"<< endl;
+                this->_v.clear();
+            }
+
             int getRow() const {return this->_row;}
             int getCol() const {return this->_col;}
             vector<double> getV() const {return this->_v;}

@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 // #include <ctime>
 // #include <random>
 using namespace zich;
@@ -282,30 +283,34 @@ TEST_CASE("operator*(double d)"){
 
 
 // tets case for mat * double
-// TEST_CASE("operator*(double d, mat other)"){
-//     std::vector<double> a = {1, 0, 0, 0, 1, 0, 0, 0, 1};
-//     std::vector<double> b = {5, 0, 0, 0, 5, 0, 0, 0, 5};
-//     std::vector<double> c = {3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5};
-//     Matrix mat1{a,3,3};
-//     Matrix check1={b,3,3};
-//     Matrix check2={c,3,3};
-//     Matrix new1= mat1*(5,&mat1);
-//     CHECK(new1.getCol()==check1.getCol());
-//     CHECK(new1.getRow()==check1.getRow());
-//     //CHECK(new1.getV()==check1.getV());
-//     vector<double> new_v=new1.getV();
-//     for (unsigned i=0;i<new_v.size();i++){
-//         CHECK(new_v[i]==b[i]);
-//     }
-//     Matrix new2= mat1*3.5;
-//     CHECK(new2.getCol()==check2.getCol());
-//     CHECK(new2.getRow()==check2.getRow());
-//     //CHECK(new2.getV()==check2.getV());
-//     new_v=new2.getV();
-//     for (unsigned i=0;i<new_v.size();i++){
-//         CHECK(new_v[i]==c[i]);
-//     }
-// }
+TEST_CASE("operator*(double d, mat other)"){
+    std::vector<double> a = {1, 0, 0, 0, 1, 0, 0, 0, 1};
+    std::vector<double> b = {5, 0, 0, 0, 5, 0, 0, 0, 5};
+    std::vector<double> c = {3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5};
+    Matrix mat1{a,3,3};
+    Matrix check1={b,3,3};
+    Matrix check2={c,3,3};
+    Matrix new1= 5*mat1;
+    CHECK(new1.getCol()==check1.getCol());
+    CHECK(new1.getRow()==check1.getRow());
+    //CHECK(new1.getV()==check1.getV());
+    vector<double> new_v=new1.getV();
+    for (unsigned i=0;i<new_v.size();i++){ 
+        CHECK(new_v[i]==b[i]);
+    }
+    new1.~Matrix();
+    Matrix new2= 3.5*mat1;
+    CHECK(new2.getCol()==check2.getCol());
+    CHECK(new2.getRow()==check2.getRow());
+    //CHECK(new2.getV()==check2.getV());
+    new_v=new2.getV();
+    for (unsigned i=0;i<new_v.size();i++){
+        CHECK(new_v[i]==c[i]);
+    }
+    new2.~Matrix();
+
+
+}
 
 TEST_CASE("operator*=(mat other)"){
     std::vector<double> a = {1,2,3};
@@ -371,7 +376,7 @@ TEST_CASE("operator==(mat other)"){
     CHECK((mat1==mat2)==false);
     CHECK((mat2==mat1)==false);
     CHECK((mat1==mat4)==true);
-    // CHECK_THROWS((mat1==mat3));
+    CHECK_THROWS((mat1==mat3));
     // CHECK_THROWS(mat2==mat3);
     // CHECK_THROWS(mat3==mat2);
     // CHECK_THROWS(mat3==mat2);
@@ -477,16 +482,17 @@ TEST_CASE("operator!=(mat other)"){
     // CHECK_THROWS(mat4!=mat3);
 }
 
-// TEST_CASE("operator<<"){
-//     std::vector<double> a = {1, 2, 3, 1, 2, 3, 1, 2, 3};
-//     Matrix mat1{a,3,3};  
-//     CHECK((<<mat1))=="[1 2 3]\n[1 2 3]\n[1 2 3]");
-//     std::vector<double> b = {1, 2, 3, 4,5,6,7,8,9};
-//     Matrix mat2{b,1,9};  
-//     CHECK((<< mat2)=="[1 2 3 4 5 6 7 8 9]");
-//     Matrix mat3{b,1,9};  
-//     CHECK((<<mat3)=="[1]\n[2]\n[3]\n[4]\n[5]\n[6]\n[7]\n[8]\n[9]");
-// }
+TEST_CASE("operator<<"){
+    std::ostream out( NULL ); 
+    std::vector<double> a = {1, 2, 3, 1, 2, 3, 1, 2, 3};
+    Matrix mat1{a,3,3};
+    cout << mat1 << endl;
+    // std::vector<double> b = {1, 2, 3, 4,5,6,7,8,9};
+    // Matrix mat2{b,1,9};  
+    // CHECK((<< mat2)=="[1 2 3 4 5 6 7 8 9]");
+    // Matrix mat3{b,1,9};  
+    // CHECK((<<mat3)=="[1]\n[2]\n[3]\n[4]\n[5]\n[6]\n[7]\n[8]\n[9]");
+}
 
 // TEST_CASE("operator>>"){
 //     std::vector<double> a = {1, 2, 3, 1, 2, 3, 1, 2, 3};

@@ -41,6 +41,8 @@
         this->setV(new_v);
     }
     
+   
+
     Matrix Matrix::operator+ (){
       int r= this->getRow();
       int c= this->getCol();
@@ -166,8 +168,18 @@
     }
 
     Matrix& zich::operator*(double d, Matrix &m){
-        Matrix ans1{m.getV(), m.getRow(),m.getCol()};
-        return m;
+        vector<double> matv=m.getV();
+        for (unsigned long i=0; i<matv.size();i++){
+            matv[i]*=d;
+        }
+        int r=m.getRow();
+        int c=m.getCol();
+        //Matrix ans1{m.getV(), m.getRow(),m.getCol()};
+        Matrix * ptrmat= new Matrix(matv,r,c);
+        // ptrmat->setCol(c);
+        // ptrmat->setRow(r);
+        // ptrmat->setV(matv);
+        return *ptrmat;
     }
 
     Matrix Matrix::operator* (const Matrix & m){
