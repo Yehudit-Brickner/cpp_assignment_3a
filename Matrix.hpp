@@ -59,9 +59,9 @@ namespace zich{
         
             // multiplacation
             Matrix operator*(double d);
-            friend Matrix& operator*(double d, Matrix &m); 
-            Matrix operator*(const Matrix m);
-            Matrix operator*=(const Matrix m);
+            friend Matrix& operator*(double d, Matrix & m); 
+            Matrix operator*(const Matrix & m);
+            Matrix operator*=(const Matrix & m);
             Matrix operator*=(double d);
             
 

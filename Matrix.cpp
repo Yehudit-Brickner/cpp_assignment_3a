@@ -170,43 +170,90 @@
         return m;
     }
 
-    Matrix Matrix::operator* (Matrix m){
-         return *this;
-    }
-
-    Matrix Matrix::operator*= (Matrix m){
-        if(this->getRow()!=m.getCol()){
+    Matrix Matrix::operator* (const Matrix & m){
+         if(this->getCol()!=m.getRow()){
             throw std::invalid_argument( "these matrices can not be multiplyed" );
         }
         
-        unsigned long row_this= (unsigned long) this->getRow();
-        unsigned long col_m =(unsigned long) m.getCol();
+        unsigned long col_this= (unsigned long) this->getCol();
+        unsigned long row_m =(unsigned long) m.getRow();
+        unsigned long row_this=(unsigned long) this->getRow();
+        unsigned long col_m=(unsigned long) m.getCol();
 
-        // vector<double> new_v;
-        // new_v.resize(row_this*col_m);
-        // unsigned long new_spot=0;
-        // unsigned long m_spot=0;
-        // unsigned long this_spot=0;
-        // unsigned long this_col=(unsigned long) this->getCol();
-        // unsigned long m_row=(unsigned long) m.getRow();
-        // unsigned long spot=0;
-        // unsigned long k=0;
-        // double d=0;
-        // for (unsigned long i=0;i<row_this;i++){
-        //     for (unsigned long j=0; j<col_m;j++){
-        //         spot=j;
-        //         d=0;
-        //         for (unsigned long n=0; n<this_col;n++){
-        //             d+=this->_v[i+n]*m._v[spot];
-        //             spot+=col_m;
-        //         }
-        //         new_v[k]=d;
-        //         k++;
-        //     }             
-        // }
+        vector<double> new_v;
+        new_v.resize(row_this*col_m);
+        //cout<< new_v.size()<< endl;
+        unsigned long spot_m=0;
+        unsigned long spot_this=0;
+        unsigned long k=0;
+        double d=0;
+        vector<double> this_v=this->getV();
+        vector<double> m_v=m.getV();
+
+        //cout << this_v.size() <<" "<< m_v.size() << " "<<m._v.size()<<  " "<< new_v.size()<< endl; 
+        for (unsigned long i=0;i<row_this;i++){
+            spot_this=i;
+            spot_this*=col_this;
+            for (unsigned long j=0; j<col_m;j++){
+                spot_m=j;
+                d=0;
+                for (unsigned long n=0; n<col_this;n++){
+                   // cout<<  "k="<< k<< " "<< this_v[spot_this+n]<<" "<<m_v[spot_m]  <<" d=" << d<< endl;
+                    d+=(this_v[spot_this+n]*m_v[spot_m]);
+                    spot_m+=col_m;                    
+                }
+                //cout<<  "d= "<< d<<endl;
+                new_v[k]=d;
+                k++;
+            }             
+        }
+        Matrix new_m{new_v,this->getRow(),m.getCol()};
         // this->setRow(this->getRow());
         // this->setCol(m.getCol());
         // this->setV(new_v);
+        return new_m;
+    }
+
+    Matrix Matrix::operator*= (const Matrix & m){
+        if(this->getCol()!=m.getRow()){
+            throw std::invalid_argument( "these matrices can not be multiplyed" );
+        }
+        
+        unsigned long col_this= (unsigned long) this->getCol();
+        unsigned long row_m =(unsigned long) m.getRow();
+        unsigned long row_this=(unsigned long) this->getRow();
+        unsigned long col_m=(unsigned long) m.getCol();
+
+        vector<double> new_v;
+        new_v.resize(row_this*col_m);
+        //cout<< new_v.size()<< endl;
+        unsigned long spot_m=0;
+        unsigned long spot_this=0;
+        unsigned long k=0;
+        double d=0;
+        vector<double> this_v=this->getV();
+        vector<double> m_v=m.getV();
+
+        //cout << this_v.size() <<" "<< m_v.size() << " "<<m._v.size()<<  " "<< new_v.size()<< endl; 
+        for (unsigned long i=0;i<row_this;i++){
+            spot_this=i;
+            spot_this*=col_this;
+            for (unsigned long j=0; j<col_m;j++){
+                spot_m=j;
+                d=0;
+                for (unsigned long n=0; n<col_this;n++){
+                   // cout<<  "k="<< k<< " "<< this_v[spot_this+n]<<" "<<m_v[spot_m]  <<" d=" << d<< endl;
+                    d+=(this_v[spot_this+n]*m_v[spot_m]);
+                    spot_m+=col_m;                    
+                }
+                //cout<<  "d= "<< d<<endl;
+                new_v[k]=d;
+                k++;
+            }             
+        }
+        this->setRow(this->getRow());
+        this->setCol(m.getCol());
+        this->setV(new_v);
         return *this;
     }
     

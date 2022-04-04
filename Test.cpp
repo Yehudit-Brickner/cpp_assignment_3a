@@ -308,40 +308,49 @@ TEST_CASE("operator*(double d)"){
 // }
 
 TEST_CASE("operator*=(mat other)"){
-    std::vector<double> a = {1, 2,3};
+    std::vector<double> a = {1,2,3};
     std::vector<double> b = {1,1,1, 1,1,1, 1,1,1};
-    std::vector<double> c = {6,6,6, 6,6,6, 6,6,6};
+    
+    std::vector<double> c = {6,6,6};
     std::vector<double> d = {1,2,3,4};
-    Matrix mat1{a,3,1};
+    
+    Matrix mat1{a,1,3};
     Matrix mat2{b,3,3};
     Matrix mat3{d,4,1}; 
     Matrix mat4{d,2,2};
-    Matrix mat_good{c,3,3};
+    Matrix mat_good{c,1,3};
     mat1*=mat2;
     CHECK(mat1.getCol()==mat_good.getCol());
     CHECK(mat1.getRow()==mat_good.getRow());
     CHECK(mat1.getV()==mat_good.getV());
-    CHECK_THROWS(mat3*=mat1);
+    vector<double> new_v=mat1.getV();
+    for (unsigned i=0;i<new_v.size();i++){
+        CHECK(new_v[i]==c[i]);
+    }
+    // CHECK_THROWS(mat3*=mat1);
     CHECK_THROWS(mat4*=mat1);
+    
+    
+    
 }
 
-// TEST_CASE("operator*(mat other)"){
-//     std::vector<double> a = {1, 2,3};
-//     std::vector<double> b = {1,1,1, 1,1,1, 1,1,1};
-//     std::vector<double> c = {6,6,6, 6,6,6, 6,6,6};
-//     std::vector<double> d = {1,2,3,4};
-//     Matrix mat1{a,3,1};
-//     Matrix mat2{b,3,3};
-//     Matrix mat3{d,4,1}; 
-//     Matrix mat4{d,2,2};
-//     Matrix mat_good{c,3,3};
-//     Matrix newm=mat1*mat2;
-//     CHECK(newm.getCol()==mat_good.getCol());
-//     CHECK(newm.getRow()==mat_good.getRow());
-//     CHECK(newm.getV()==mat_good.getV());
-//     CHECK_THROWS(mat3*=mat1);
-//     CHECK_THROWS(mat4*=mat1); 
-// }
+TEST_CASE("operator*(mat other)"){
+    std::vector<double> a = {1,2,3};
+    std::vector<double> b = {1,1,1, 1,1,1, 1,1,1};
+    std::vector<double> c = {6,6,6};
+    std::vector<double> d = {1,2,3,4};
+    Matrix mat1{a,1,3};
+    Matrix mat2{b,3,3};
+    Matrix mat3{d,4,1}; 
+    Matrix mat4{d,2,2};
+    Matrix mat_good{c,1,3};
+    Matrix newm=mat1*mat2;
+    CHECK(newm.getCol()==mat_good.getCol());
+    CHECK(newm.getRow()==mat_good.getRow());
+    CHECK(newm.getV()==mat_good.getV());
+    // CHECK_THROWS(mat3*mat1);
+    CHECK_THROWS(mat4*mat1); 
+}
 
 
 
