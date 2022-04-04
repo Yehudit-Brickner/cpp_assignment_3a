@@ -46,7 +46,7 @@
         unsigned long s=old.size();
         vector<double> new_v;
         new_v.reserve(s);
-        for (unsigned long i;i<s;i++){
+        for (unsigned long i=0;i<s;i++){
             new_v[i]=old[i];
         }
         this->setCol(c);
@@ -202,7 +202,7 @@
         }
         
         unsigned long col_this= (unsigned long) this->getCol();
-        unsigned long row_m =(unsigned long) m.getRow();
+        //unsigned long row_m =(unsigned long) m.getRow();
         unsigned long row_this=(unsigned long) this->getRow();
         unsigned long col_m=(unsigned long) m.getCol();
 
@@ -246,7 +246,7 @@
         }
         
         unsigned long col_this= (unsigned long) this->getCol();
-        unsigned long row_m =(unsigned long) m.getRow();
+        //unsigned long row_m =(unsigned long) m.getRow();
         unsigned long row_this=(unsigned long) this->getRow();
         unsigned long col_m=(unsigned long) m.getCol();
 
