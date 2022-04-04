@@ -30,7 +30,7 @@ namespace zich{
             // void setCol(int c){this->_col=c;}
             // void setV(vector<double>& v){this->_v=v;}
             
-            void setMatrix(vector<double> v,int r, int c); 
+            void setMatrix(vector<double> & v,int r, int c); 
             
            
             // addition

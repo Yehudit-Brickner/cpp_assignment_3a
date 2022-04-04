@@ -3,12 +3,12 @@
     #include <stdexcept>
     using namespace zich;
 
-    void Matrix::setMatrix (vector<double> v,int r, int c){
+    void Matrix::setMatrix (vector<double> & v,int r, int c){
         if( r<1 || c<1){
             //cout <<"r*c "<< r*c << "s " << v.size()<< endl;
             throw std::invalid_argument( "row or col invalid size" ); 
         }
-        if(v.size()<1){
+        if(v.empty()){
             //cout <<"r*c "<< r*c << "s " << v.size()<< endl;
            throw std::invalid_argument( "vector  is invalid" ); 
         }
@@ -166,6 +166,7 @@
     }
 
     Matrix& zich::operator*(double d, Matrix &m){
+        Matrix ans1{m.getV(), m.getRow(),m.getCol()};
         return m;
     }
 
@@ -174,6 +175,38 @@
     }
 
     Matrix Matrix::operator*= (Matrix m){
+        if(this->getRow()!=m.getCol()){
+            throw std::invalid_argument( "these matrices can not be multiplyed" );
+        }
+        
+        unsigned long row_this= (unsigned long) this->getRow();
+        unsigned long col_m =(unsigned long) m.getCol();
+
+        // vector<double> new_v;
+        // new_v.resize(row_this*col_m);
+        // unsigned long new_spot=0;
+        // unsigned long m_spot=0;
+        // unsigned long this_spot=0;
+        // unsigned long this_col=(unsigned long) this->getCol();
+        // unsigned long m_row=(unsigned long) m.getRow();
+        // unsigned long spot=0;
+        // unsigned long k=0;
+        // double d=0;
+        // for (unsigned long i=0;i<row_this;i++){
+        //     for (unsigned long j=0; j<col_m;j++){
+        //         spot=j;
+        //         d=0;
+        //         for (unsigned long n=0; n<this_col;n++){
+        //             d+=this->_v[i+n]*m._v[spot];
+        //             spot+=col_m;
+        //         }
+        //         new_v[k]=d;
+        //         k++;
+        //     }             
+        // }
+        // this->setRow(this->getRow());
+        // this->setCol(m.getCol());
+        // this->setV(new_v);
         return *this;
     }
     
@@ -299,36 +332,49 @@
     ostream& zich::operator<< (ostream& output,const Matrix & m){
         int r=m.getRow();
         int c=m.getCol();
-        string ans="";
+        //string ans="";
         unsigned long rl=( unsigned long)r;
         unsigned long cl=( unsigned long)c;
         unsigned long k=0;
         for (unsigned long i=0;i<rl;i++){
-            ans.push_back('[');
-            cout<< '[';
+            //ans.push_back('[');
+            output<< '[';
             for (unsigned long j=0;j<cl;j++){
-                ans.push_back(m._v[k]);
+                //ans.push_back(m._v[k]);
                 cout<< m._v[k];
                 if(j<cl-1){
-                    ans.push_back(' ');
-                    cout<< ' ';
+                    //ans.push_back(' ');
+                    output<< ' ';
                 }
                 k++;
             }
-            ans.push_back(']');
-            cout << ']';
+            //ans.push_back(']');
+            output << ']';
             if(i<rl){
-                ans.push_back('\n');
-                cout << '\n';
+                //ans.push_back('\n');
+                output << '\n';
             } 
         }
         //return ans;
-        cout << ans<< endl;
+        //output << ans<< endl;
         //output << ans ;
         return output;
 
     }
 
     istream& zich::operator>>(istream& input,  Matrix& m){
+        
+        cout<< "please enter the amount of rows"<< endl; 
+        input >> m._row;
+        cout<< "please enter the amount of cols"<< endl; 
+        input >> m._col;
+        vector<double> new_v;
+        unsigned long s=(unsigned long)(m._col*m._row);
+        new_v.resize(s);
+        cout<< "please enter the marix values"<< endl; 
+        for (unsigned long i=0; i<s;i++){
+            input >> new_v[i];
+        }
+        m._v=new_v;
         return input;
     }
