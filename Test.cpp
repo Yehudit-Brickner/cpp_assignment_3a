@@ -310,10 +310,9 @@ TEST_CASE("operator*(double d)"){
 TEST_CASE("operator*=(mat other)"){
     std::vector<double> a = {1,2,3};
     std::vector<double> b = {1,1,1, 1,1,1, 1,1,1};
-    
     std::vector<double> c = {6,6,6};
     std::vector<double> d = {1,2,3,4};
-    
+    std::vector<double> e = {6,6,6, 12,12,12, 18,18,18, 24,24,24};
     Matrix mat1{a,1,3};
     Matrix mat2{b,3,3};
     Matrix mat3{d,4,1}; 
@@ -327,11 +326,13 @@ TEST_CASE("operator*=(mat other)"){
     for (unsigned i=0;i<new_v.size();i++){
         CHECK(new_v[i]==c[i]);
     }
-    // CHECK_THROWS(mat3*=mat1);
-    CHECK_THROWS(mat4*=mat1);
-    
-    
-    
+    Matrix mat_good2{e,4,3};
+    mat3*=mat1;
+    CHECK(mat3.getCol()==mat_good2.getCol());
+    CHECK(mat3.getRow()==mat_good2.getRow());
+    CHECK(mat3.getV()==mat_good2.getV());
+    CHECK_THROWS(mat4*mat1);
+    CHECK_THROWS(mat1*mat3);    
 }
 
 TEST_CASE("operator*(mat other)"){
@@ -339,22 +340,25 @@ TEST_CASE("operator*(mat other)"){
     std::vector<double> b = {1,1,1, 1,1,1, 1,1,1};
     std::vector<double> c = {6,6,6};
     std::vector<double> d = {1,2,3,4};
+    std::vector<double> e = {1,2,3, 2,4,6, 3,6,9, 4,8,12};
     Matrix mat1{a,1,3};
     Matrix mat2{b,3,3};
     Matrix mat3{d,4,1}; 
     Matrix mat4{d,2,2};
-    Matrix mat_good{c,1,3};
-    Matrix newm=mat1*mat2;
-    CHECK(newm.getCol()==mat_good.getCol());
-    CHECK(newm.getRow()==mat_good.getRow());
-    CHECK(newm.getV()==mat_good.getV());
-    // CHECK_THROWS(mat3*mat1);
-    CHECK_THROWS(mat4*mat1); 
+    Matrix mat_good1{c,1,3};
+    Matrix newm1=mat1*mat2;
+    CHECK(newm1.getCol()==mat_good1.getCol());
+    CHECK(newm1.getRow()==mat_good1.getRow());
+    CHECK(newm1.getV()==mat_good1.getV());
+    
+    Matrix mat_good2{e,4,3};
+    Matrix newm2=mat3*mat1;
+    CHECK(newm2.getCol()==mat_good2.getCol());
+    CHECK(newm2.getRow()==mat_good2.getRow());
+    CHECK(newm2.getV()==mat_good2.getV());
+    CHECK_THROWS(mat4*mat1);
+    CHECK_THROWS(mat1*mat3); 
 }
-
-
-
-
 
 TEST_CASE("operator==(mat other)"){
     std::vector<double> a = {1, 2, 3, 1, 2, 3, 1, 2, 3};
